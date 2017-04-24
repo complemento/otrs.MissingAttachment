@@ -1,0 +1,40 @@
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+	var words = '[% Data.Words %]';
+	var arrayWords = words.split(',');
+
+	$("#submitRichText").click(function(){
+		var ckedit =  window.CKEDITOR.instances['RichText'].getData();
+		var foundWord = "";
+		var showAlert = 0;
+		for(var i=0; i <= arrayWords.length; i++){
+			if(arrayWords[i]){
+				var re = new RegExp(arrayWords[i], 'i');
+				var buscar = ckedit.search(re);
+				if(buscar >= 0){
+					foundWord = foundWord + "," + arrayWords[i];	
+					showAlert = 1;
+				}
+			}
+		}
+		var attchment = $("[name^=AttachmentDeleteButton]").size();
+		if(showAlert >= 1  ){
+			if(attchment < 1){
+				if(confirm("Foi encontrado termos que sugerem anexo  no conteúdo desse chamado. Click em cancelar para anexar um novo arquivo ou em OK para enviar ")){ 
+				}else{
+		
+					$("#FileUpload").trigger("click");
+					return false;	
+				}
+			}
+		}else{
+	
+		}	
+    });
+
+//]]></script>
+<script type="text/javascript">//<![CDATA[
+//]]></script>
+[% END %]
+
+
